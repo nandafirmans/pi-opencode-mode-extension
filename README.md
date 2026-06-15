@@ -25,19 +25,25 @@ OpenCode-style **Build / Plan** mode extension for Pi.
 
 ## Install
 
-From source:
+Install from npm:
 
 ```bash
-pi install /path/to/pi-opencode-mode-extension
+pi install npm:pi-opencode-mode-extension
 ```
 
-Or load directly:
+Try without installing:
 
 ```bash
-pi --extension /path/to/pi-opencode-mode-extension/src/index.ts
+pi -e npm:pi-opencode-mode-extension
 ```
 
-For local development from this repo:
+Update after a new npm release:
+
+```bash
+pi update npm:pi-opencode-mode-extension
+```
+
+Local development from this repo:
 
 ```bash
 pi --extension ./src/index.ts
@@ -69,7 +75,13 @@ Toggle mode:
 Ctrl+Alt+P
 ```
 
-Start Pi in plan mode:
+Start Pi in plan mode after installing:
+
+```bash
+pi --plan
+```
+
+Start Pi in plan mode from this repo:
 
 ```bash
 pi --extension ./src/index.ts --plan
