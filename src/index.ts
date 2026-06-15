@@ -6,7 +6,7 @@
  * - PLAN: read-only planning, safe bash/RTK allowlist, no edit/write
  *
  * Shortcuts:
- * - Alt+P: toggle mode
+ * - Ctrl+Alt+P: toggle mode
  * Commands:
  * - /plan, /build, /mode
  */
@@ -98,7 +98,7 @@ function fileExists(filePath: string): boolean {
 }
 
 function isModeToggleKey(data: string): boolean {
-	return matchesKey(data, Key.alt("p")) || data === "\x1bp" || data === "\x1bP";
+	return matchesKey(data, Key.ctrlAlt("p")) || data === "\x1b\x10";
 }
 
 class ToggleEditor extends CustomEditor {
@@ -222,7 +222,7 @@ export default function opencodeModeExtension(pi: ExtensionAPI): void {
 		if (notify) {
 			ctx.ui.notify(
 				nextMode === "plan"
-					? "Plan mode: read-only. Use /build or Alt+P to build."
+					? "Plan mode: read-only. Use /build or Ctrl+Alt+P to build."
 					: "Build mode: full tools restored. Re-read planned files before editing.",
 				"info",
 			);
@@ -252,7 +252,7 @@ export default function opencodeModeExtension(pi: ExtensionAPI): void {
 		},
 	});
 
-	pi.registerShortcut(Key.alt("p"), {
+	pi.registerShortcut(Key.ctrlAlt("p"), {
 		description: "Toggle build/plan mode",
 		handler: async (ctx) => toggleMode(ctx),
 	});
@@ -321,7 +321,7 @@ export default function opencodeModeExtension(pi: ExtensionAPI): void {
 			if (toolName === "edit" || toolName === "write") {
 				return {
 					block: true,
-					reason: "PLAN mode is read-only. Switch to BUILD with /build or Alt+P before editing.",
+					reason: "PLAN mode is read-only. Switch to BUILD with /build or Ctrl+Alt+P before editing.",
 				};
 			}
 

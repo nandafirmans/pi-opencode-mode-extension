@@ -8,7 +8,7 @@ OpenCode-style **Build / Plan** mode extension for Pi.
   - `build`: normal Pi behavior
   - `plan`: read-only planning and analysis
 - Mode switch:
-  - `Alt+P`
+  - `Ctrl+Alt+P`
   - `/plan`, `/build`, `/mode` commands
 - Status badge:
   - `⚒ BUILD`
@@ -66,7 +66,7 @@ Select mode:
 Toggle mode:
 
 ```text
-Alt+P
+Ctrl+Alt+P
 ```
 
 Start Pi in plan mode:
@@ -140,4 +140,4 @@ The extension may hide mutating tools in plan mode, but safety is enforced by `t
 
 ## Notes
 
-`Alt+P` is the only keyboard shortcut. Use `/plan`, `/build`, or `/mode` if your terminal intercepts it.
+`Ctrl+Alt+P` is the only keyboard shortcut. Use `/plan`, `/build`, or `/mode` if your terminal intercepts it.
