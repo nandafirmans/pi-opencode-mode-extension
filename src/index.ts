@@ -18,7 +18,7 @@ import {
 	type ExtensionAPI,
 	type ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { Key, matchesKey, type Component, type Focusable } from "@earendil-works/pi-tui";
+import { Key, matchesKey } from "@earendil-works/pi-tui";
 
 type Mode = "build" | "plan";
 
@@ -120,40 +120,19 @@ class ToggleEditor extends CustomEditor {
 	}
 }
 
-class ToggleEditorWrapper implements Component, Focusable {
-	private _focused = false;
-
-	constructor(
-		private readonly base: Component & Partial<Focusable>,
-		private readonly toggleMode: () => void,
-	) {}
-
-	get focused(): boolean {
-		return this._focused;
-	}
-
-	set focused(value: boolean) {
-		this._focused = value;
-		if ("focused" in this.base) {
-			this.base.focused = value;
-		}
-	}
-
-	render(width: number): string[] {
-		return this.base.render(width);
-	}
-
-	handleInput(data: string): void {
+function wrapToggleInput<T extends { handleInput?: (data: string) => void }>(
+	editor: T,
+	toggleMode: () => void,
+): T {
+	const previousHandleInput = editor.handleInput?.bind(editor);
+	editor.handleInput = (data: string) => {
 		if (isModeToggleKey(data)) {
-			this.toggleMode();
+			toggleMode();
 			return;
 		}
-		this.base.handleInput?.(data);
-	}
-
-	invalidate(): void {
-		this.base.invalidate();
-	}
+		previousHandleInput?.(data);
+	};
+	return editor;
 }
 
 export default function opencodeModeExtension(pi: ExtensionAPI): void {
@@ -273,7 +252,7 @@ export default function opencodeModeExtension(pi: ExtensionAPI): void {
 		const previousFactory = ctx.ui.getEditorComponent();
 		ctx.ui.setEditorComponent((tui, theme, keybindings) => {
 			if (previousFactory) {
-				return new ToggleEditorWrapper(previousFactory(tui, theme, keybindings), () => toggleMode(ctx));
+				return wrapToggleInput(previousFactory(tui, theme, keybindings), () => toggleMode(ctx));
 			}
 			return new ToggleEditor(tui, theme, keybindings, () => toggleMode(ctx));
 		});

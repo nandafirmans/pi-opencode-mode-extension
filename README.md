@@ -153,3 +153,5 @@ The extension may hide mutating tools in plan mode, but safety is enforced by `t
 ## Notes
 
 `Ctrl+Alt+P` is the only keyboard shortcut. Use `/plan`, `/build`, or `/mode` if your terminal intercepts it.
+
+Do not load this package together with another OpenCode/plan-mode extension. If you previously used a local extension like `~/.pi/agent/extensions/opencode-mode.ts`, disable or remove it before installing this package.
